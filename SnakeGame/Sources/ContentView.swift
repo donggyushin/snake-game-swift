@@ -3,7 +3,6 @@ import SwiftUI
 public struct ContentView: View {
 
     @StateObject var model: ContentViewModel
-    @FocusState private var isFocused: Bool
 
     public init(
         model: ContentViewModel
@@ -53,7 +52,6 @@ public struct ContentView: View {
             model.generateInitialSnake()
         }
         .focusable()
-        .focused($isFocused)
         .onKeyPress { keyPress in
             switch keyPress.key {
             case .upArrow:
@@ -71,9 +69,6 @@ public struct ContentView: View {
             default:
                 return .ignored
             }
-        }
-        .onAppear {
-            isFocused = true
         }
         .frame(width: 700, height: 700)
     }

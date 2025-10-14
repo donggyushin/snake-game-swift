@@ -25,18 +25,15 @@ public final class ContentViewModel: ObservableObject {
             switch direction {
             case .up:
                 square.y -= 1
-                print("up")
             case .down:
                 square.y += 1
-                print("down")
             case .left:
                 square.x -= 1
-                print("left")
             case .right:
                 square.x += 1
-                print("right")
-
             }
+
+            snake[i] = square
         }
     }
 }
