@@ -24,12 +24,10 @@ public final class ContentViewModel: ObservableObject {
         self.grid = grid
     }
 
-    @MainActor func isConflict(_ square: Square) -> Bool {
-
-        guard square.x >= 0, square.y >= 0 else { return true }
-        guard square.x < grid, square.y < grid else { return true }
-
-        return false
+    @MainActor func set(_ direction: Direction) {
+        guard !isGameOver else { return }
+        guard snake.isEmpty == false else { return }
+        snake[0].direction = direction
     }
 
     @MainActor func generateInitialSnake() {
@@ -81,21 +79,12 @@ public final class ContentViewModel: ObservableObject {
         }
     }
 
-    @MainActor func removeFood(from square: Square) {
-        let x = square.x
-        let y = square.y
+    @MainActor func isConflict(_ square: Square) -> Bool {
 
-        for (index, food) in foods.enumerated() {
-            if food.x == x && food.y == y {
-                foods.remove(at: index)
-            }
-        }
-    }
+        guard square.x >= 0, square.y >= 0 else { return true }
+        guard square.x < grid, square.y < grid else { return true }
 
-    @MainActor func set(_ direction: Direction) {
-        guard !isGameOver else { return }
-        guard snake.isEmpty == false else { return }
-        snake[0].direction = direction
+        return false
     }
 
     @MainActor func generateFoodToRandomCoordinate() {
@@ -137,5 +126,16 @@ public final class ContentViewModel: ObservableObject {
         }
 
         return false
+    }
+
+    @MainActor func removeFood(from square: Square) {
+        let x = square.x
+        let y = square.y
+
+        for (index, food) in foods.enumerated() {
+            if food.x == x && food.y == y {
+                foods.remove(at: index)
+            }
+        }
     }
 }
