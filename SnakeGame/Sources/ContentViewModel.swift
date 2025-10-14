@@ -76,10 +76,19 @@ public final class ContentViewModel: ObservableObject {
 
         if ateFood(snake[0]) {
             print("ate food!")
-
-            print("remove food")
-
+            removeFood(from: snake[0])
             print("append tail")
+        }
+    }
+
+    @MainActor func removeFood(from square: Square) {
+        let x = square.x
+        let y = square.y
+
+        for (index, food) in foods.enumerated() {
+            if food.x == x && food.y == y {
+                foods.remove(at: index)
+            }
         }
     }
 
