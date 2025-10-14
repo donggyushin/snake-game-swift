@@ -55,16 +55,16 @@ public struct ContentView: View {
         .onKeyPress { keyPress in
             switch keyPress.key {
             case .upArrow:
-                model.move(.up)
+                model.set(.up)
                 return .handled
             case .downArrow:
-                model.move(.down)
+                model.set(.down)
                 return .handled
             case .leftArrow:
-                model.move(.left)
+                model.set(.left)
                 return .handled
             case .rightArrow:
-                model.move(.right)
+                model.set(.right)
                 return .handled
             default:
                 return .ignored

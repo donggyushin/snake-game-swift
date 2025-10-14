@@ -17,23 +17,25 @@ public final class ContentViewModel: ObservableObject {
         ]
     }
 
-    @MainActor func move(_ direction: Direction) {
+    @MainActor func set(_ direction: Direction) {
 
-        for i in snake.indices {
-            var square = snake[i]
+        snake[0].direction = direction
 
-            switch direction {
-            case .up:
-                square.y -= 1
-            case .down:
-                square.y += 1
-            case .left:
-                square.x -= 1
-            case .right:
-                square.x += 1
-            }
+        //for i in snake.indices {
+        //    var square = snake[i]
+        //
+        //    switch direction {
+        //    case .up:
+        //        square.y -= 1
+        //    case .down:
+        //        square.y += 1
+        //    case .left:
+        //        square.x -= 1
+        //    case .right:
+        //        square.x += 1
+        //    }
 
-            snake[i] = square
-        }
+        //   snake[i] = square
+        // }
     }
 }

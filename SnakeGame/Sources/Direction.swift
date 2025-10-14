@@ -1,3 +1,3 @@
-enum Direction {
+enum Direction: CaseIterable {
     case up, down, right, left
 }
