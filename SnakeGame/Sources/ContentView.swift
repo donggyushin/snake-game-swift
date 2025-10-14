@@ -15,6 +15,9 @@ public struct ContentView: View {
         TimelineView(.animation) { timelineContext in
             let prevMoveTime = lastMoveTime
             let now = secondsValue(for: timelineContext.date)
+            if prevMoveTime > now {
+                lastMoveTime = 0
+            }
             // 일단 1초에 한 번씩 움직이도록
             if now - prevMoveTime > 1 {
                 model.move()
