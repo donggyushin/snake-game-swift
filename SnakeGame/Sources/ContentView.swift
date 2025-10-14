@@ -14,7 +14,7 @@ public struct ContentView: View {
 
     public var body: some View {
         TimelineView(.animation) { timelineContext in
-            let _ = secondsValue(for: timelineContext.date)
+            // let _ = secondsValue(for: timelineContext.date)
             Canvas(
                 opaque: true,
                 colorMode: .linear,
