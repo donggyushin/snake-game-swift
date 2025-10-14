@@ -52,6 +52,7 @@ public struct ContentView: View {
             model.generateInitialSnake()
         }
         .onKeyPress { keyPress in
+            print(keyPress)
             switch keyPress.key {
             case .upArrow:
                 model.move(.up)
@@ -70,6 +71,7 @@ public struct ContentView: View {
             }
         }
         .focusable()
+        .frame(width: 700, height: 700)
     }
     private func secondsValue(for date: Date) -> Double {
         let seconds = Calendar.current.component(.second, from: date)
@@ -81,6 +83,5 @@ public struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(model: .init())
-            .frame(width: 700, height: 700)
     }
 }
