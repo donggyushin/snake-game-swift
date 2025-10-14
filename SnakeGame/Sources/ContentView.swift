@@ -3,6 +3,7 @@ import SwiftUI
 public struct ContentView: View {
 
     @StateObject var model: ContentViewModel
+    @State var lastMoveTime: Double = 0
 
     public init(
         model: ContentViewModel
@@ -12,8 +13,15 @@ public struct ContentView: View {
 
     public var body: some View {
         TimelineView(.animation) { timelineContext in
-            // let _ = secondsValue(for: timelineContext.date)
-            Canvas(
+            let prevMoveTime = lastMoveTime
+            let now = secondsValue(for: timelineContext.date)
+            // 일단 1초에 한 번씩 움직이도록
+            if now - prevMoveTime > 1 {
+                model.move()
+                lastMoveTime = now
+            }
+
+            return Canvas(
                 opaque: true,
                 colorMode: .linear,
                 rendersAsynchronously: false
@@ -74,8 +82,7 @@ public struct ContentView: View {
     }
     private func secondsValue(for date: Date) -> Double {
         let seconds = Calendar.current.component(.second, from: date)
-        print(seconds)
-        return Double(seconds) / 60
+        return Double(seconds)
     }
 }
 
