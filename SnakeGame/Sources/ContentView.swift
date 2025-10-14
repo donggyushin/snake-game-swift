@@ -2,8 +2,6 @@ import SwiftUI
 
 public struct ContentView: View {
 
-    let grid = 30.0
-
     @StateObject var model: ContentViewModel
 
     public init(
@@ -22,8 +20,8 @@ public struct ContentView: View {
             ) { context, size in
                 context.opacity = 0.3
 
-                for i in (1..<Int(grid)) {
-                    let y = size.height / grid * Double(i)
+                for i in (1..<Int(model.grid)) {
+                    let y = size.height / model.grid * Double(i)
 
                     let horizontalLinePath = Path { path in
                         path.move(to: .init(x: 0, y: y))
@@ -31,7 +29,7 @@ public struct ContentView: View {
                     }
                     context.stroke(horizontalLinePath, with: .color(.gray))
 
-                    let x = size.width / grid * Double(i)
+                    let x = size.width / model.grid * Double(i)
 
                     let verticalLinePath = Path { path in
                         path.move(to: .init(x: x, y: 0))
@@ -42,9 +40,10 @@ public struct ContentView: View {
 
                 for square in model.snake {
                     let rect = CGRect(
-                        x: size.width / grid * square.x, y: size.height / grid * square.y,
-                        width: size.width / grid,
-                        height: size.height / grid)
+                        x: size.width / model.grid * square.x,
+                        y: size.height / model.grid * square.y,
+                        width: size.width / model.grid,
+                        height: size.height / model.grid)
                     context.fill(Rectangle().path(in: rect), with: .color(.red))
                 }
             }
