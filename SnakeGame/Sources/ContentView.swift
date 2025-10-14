@@ -48,6 +48,9 @@ public struct ContentView: View {
                 }
             }
         }
+        .task {
+            model.generateInitialSnake()
+        }
     }
     private func secondsValue(for date: Date) -> Double {
         let seconds = Calendar.current.component(.second, from: date)
