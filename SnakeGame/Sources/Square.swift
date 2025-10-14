@@ -1,4 +1,4 @@
 struct Square {
-    let x: Double
-    let y: Double
+    var x: Double
+    var y: Double
 }
