@@ -63,14 +63,14 @@ public final class ContentViewModel: ObservableObject {
 
             guard !isConflict(square) else {
                 isGameOver = true
-                print("GameOver!")
+                print("GameOver! \(square)")
                 return
             }
             prevDirection = tempDirection
             snake[i] = square
         }
 
-        if Bool.random() && Bool.random() {
+        if Bool.random() && Bool.random() && Bool.random() {
             generateFoodToRandomCoordinate()
         }
     }
@@ -104,6 +104,7 @@ public final class ContentViewModel: ObservableObject {
             }
 
             self.foods.append(.init(x: x, y: y))
+            break
         }
     }
 }

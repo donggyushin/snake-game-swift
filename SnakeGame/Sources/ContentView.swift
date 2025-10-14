@@ -20,7 +20,9 @@ public struct ContentView: View {
             }
             // 일단 1초에 한 번씩 움직이도록
             if now - prevMoveTime > 1 {
-                model.move()
+                if prevMoveTime > 0 {
+                    model.move()
+                }
                 lastMoveTime = now
             }
 
@@ -85,6 +87,15 @@ public struct ContentView: View {
                 width: size.width / model.grid,
                 height: size.height / model.grid)
             context.fill(Rectangle().path(in: rect), with: .color(.red))
+        }
+
+        for food in model.foods {
+            let rect = CGRect(
+                x: size.width / model.grid * food.x,
+                y: size.height / model.grid * food.y,
+                width: size.width / model.grid,
+                height: size.height / model.grid)
+            context.fill(Circle().path(in: rect), with: .color(.yellow))
         }
     }
 
