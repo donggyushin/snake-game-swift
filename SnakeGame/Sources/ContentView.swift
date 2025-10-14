@@ -29,34 +29,7 @@ public struct ContentView: View {
                 colorMode: .linear,
                 rendersAsynchronously: false
             ) { context, size in
-                context.opacity = 0.3
-
-                for i in (1..<Int(model.grid)) {
-                    let y = size.height / model.grid * Double(i)
-
-                    let horizontalLinePath = Path { path in
-                        path.move(to: .init(x: 0, y: y))
-                        path.addLine(to: .init(x: size.width, y: y))
-                    }
-                    context.stroke(horizontalLinePath, with: .color(.gray))
-
-                    let x = size.width / model.grid * Double(i)
-
-                    let verticalLinePath = Path { path in
-                        path.move(to: .init(x: x, y: 0))
-                        path.addLine(to: .init(x: x, y: size.height))
-                    }
-                    context.stroke(verticalLinePath, with: .color(.gray))
-                }
-
-                for square in model.snake {
-                    let rect = CGRect(
-                        x: size.width / model.grid * square.x,
-                        y: size.height / model.grid * square.y,
-                        width: size.width / model.grid,
-                        height: size.height / model.grid)
-                    context.fill(Rectangle().path(in: rect), with: .color(.red))
-                }
+                drawCanvas(context: context, size: size)
             }
         }
         .task {
@@ -83,6 +56,38 @@ public struct ContentView: View {
         }
         .frame(width: 700, height: 700)
     }
+    private func drawCanvas(context: GraphicsContext, size: CGSize) {
+        var context = context
+        context.opacity = 0.3
+
+        for i in (1..<Int(model.grid)) {
+            let y = size.height / model.grid * Double(i)
+
+            let horizontalLinePath = Path { path in
+                path.move(to: .init(x: 0, y: y))
+                path.addLine(to: .init(x: size.width, y: y))
+            }
+            context.stroke(horizontalLinePath, with: .color(.gray))
+
+            let x = size.width / model.grid * Double(i)
+
+            let verticalLinePath = Path { path in
+                path.move(to: .init(x: x, y: 0))
+                path.addLine(to: .init(x: x, y: size.height))
+            }
+            context.stroke(verticalLinePath, with: .color(.gray))
+        }
+
+        for square in model.snake {
+            let rect = CGRect(
+                x: size.width / model.grid * square.x,
+                y: size.height / model.grid * square.y,
+                width: size.width / model.grid,
+                height: size.height / model.grid)
+            context.fill(Rectangle().path(in: rect), with: .color(.red))
+        }
+    }
+
     private func secondsValue(for date: Date) -> Double {
         let seconds = Calendar.current.component(.second, from: date)
         return Double(seconds)
