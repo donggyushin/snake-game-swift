@@ -38,9 +38,13 @@ public struct ContentView: View {
                 context.stroke(verticalLinePath, with: .color(.gray))
             }
 
-            let rect = CGRect(x: 0, y: 0, width: size.width / grid, height: size.height / grid)
-            context.fill(Rectangle().path(in: rect), with: .color(.red))
-
+            for square in model.snake {
+                let rect = CGRect(
+                    x: size.width / grid * square.x, y: size.height / grid * square.y,
+                    width: size.width / grid,
+                    height: size.height / grid)
+                context.fill(Rectangle().path(in: rect), with: .color(.red))
+            }
         }
     }
 }
