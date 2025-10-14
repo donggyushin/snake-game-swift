@@ -3,6 +3,7 @@ import SwiftUI
 public struct ContentView: View {
 
     @StateObject var model: ContentViewModel
+    @FocusState private var isFocused: Bool
 
     public init(
         model: ContentViewModel
@@ -51,8 +52,9 @@ public struct ContentView: View {
         .task {
             model.generateInitialSnake()
         }
+        .focusable()
+        .focused($isFocused)
         .onKeyPress { keyPress in
-            print(keyPress)
             switch keyPress.key {
             case .upArrow:
                 model.move(.up)
@@ -70,7 +72,9 @@ public struct ContentView: View {
                 return .ignored
             }
         }
-        .focusable()
+        .onAppear {
+            isFocused = true
+        }
         .frame(width: 700, height: 700)
     }
     private func secondsValue(for date: Date) -> Double {
