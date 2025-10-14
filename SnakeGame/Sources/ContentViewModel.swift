@@ -73,6 +73,14 @@ public final class ContentViewModel: ObservableObject {
         if Bool.random() && Bool.random() && Bool.random() {
             generateFoodToRandomCoordinate()
         }
+
+        if ateFood(snake[0]) {
+            print("ate food!")
+
+            print("remove food")
+
+            print("append tail")
+        }
     }
 
     @MainActor func set(_ direction: Direction) {
@@ -106,5 +114,19 @@ public final class ContentViewModel: ObservableObject {
             self.foods.append(.init(x: x, y: y))
             break
         }
+    }
+
+    @MainActor func ateFood(_ square: Square) -> Bool {
+
+        let x = square.x
+        let y = square.y
+
+        for food in foods {
+            if food.x == x && food.y == y {
+                return true
+            }
+        }
+
+        return false
     }
 }
