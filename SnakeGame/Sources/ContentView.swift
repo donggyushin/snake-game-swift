@@ -57,6 +57,10 @@ public struct ContentView: View {
                         height: size.height / model.grid)
                     context.fill(Rectangle().path(in: rect), with: .color(.red))
                 }
+
+                for food in model.foods {
+
+                }
             }
         }
         .task {

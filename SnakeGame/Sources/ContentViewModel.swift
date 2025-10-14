@@ -69,6 +69,10 @@ public final class ContentViewModel: ObservableObject {
             prevDirection = tempDirection
             snake[i] = square
         }
+
+        if Bool.random() && Bool.random() {
+            generateFoodToRandomCoordinate()
+        }
     }
 
     @MainActor func set(_ direction: Direction) {
