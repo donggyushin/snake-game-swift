@@ -32,7 +32,7 @@ public final class ContentViewModel: ObservableObject {
 
     @MainActor func generateInitialSnake() {
         snake = [
-            .init(x: grid / 2, y: grid / 2)
+            .init(x: grid / 2, y: grid / 2),
         ]
     }
 
@@ -68,7 +68,7 @@ public final class ContentViewModel: ObservableObject {
             snake[i] = square
         }
 
-        if Bool.random() && Bool.random() && Bool.random() {
+        if Bool.random(), Bool.random(), Bool.random() {
             generateFoodToRandomCoordinate()
         }
 
@@ -80,7 +80,6 @@ public final class ContentViewModel: ObservableObject {
     }
 
     @MainActor func isConflict(_ square: Square) -> Bool {
-
         guard square.x >= 0, square.y >= 0 else { return true }
         guard square.x < grid, square.y < grid else { return true }
 
@@ -89,33 +88,30 @@ public final class ContentViewModel: ObservableObject {
 
     @MainActor func generateFoodToRandomCoordinate() {
         while true {
-
             // Food, Square 가 없는 위치
             let x = availableCoordinateNumber.randomElement()!
             let y = availableCoordinateNumber.randomElement()!
 
             for square in snake {
-                if square.x == x && square.y == y {
+                if square.x == x, square.y == y {
                     print("square 랑 위치 겹침")
                     continue
                 }
             }
 
             for food in foods {
-
-                if food.x == x && food.y == y {
+                if food.x == x, food.y == y {
                     print("Food 랑 위치 겹침")
                     continue
                 }
             }
 
-            self.foods.append(.init(x: x, y: y))
+            foods.append(.init(x: x, y: y))
             break
         }
     }
 
     @MainActor func ateFood(_ square: Square) -> Bool {
-
         let x = square.x
         let y = square.y
 
@@ -133,7 +129,7 @@ public final class ContentViewModel: ObservableObject {
         let y = square.y
 
         for (index, food) in foods.enumerated() {
-            if food.x == x && food.y == y {
+            if food.x == x, food.y == y {
                 foods.remove(at: index)
             }
         }
