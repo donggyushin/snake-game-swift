@@ -27,7 +27,9 @@ public final class ContentViewModel: ObservableObject {
     @MainActor func set(_ direction: Direction) {
         guard !isGameOver else { return }
         guard snake.isEmpty == false else { return }
-        snake[0].direction = direction
+        var head = snake[0]
+        head.direction = direction
+        snake[0] = head
     }
 
     @MainActor func tick() {

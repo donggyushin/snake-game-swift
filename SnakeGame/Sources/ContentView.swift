@@ -14,10 +14,12 @@ public struct ContentView: View {
             timelineView()
         }
         .task {
-            model.generateInitialSnake()
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                Task {
-                    await model.tick()
+            await MainActor.run {
+                model.generateInitialSnake()
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                    Task { @MainActor in
+                        model.tick()
+                    }
                 }
             }
         }
@@ -25,17 +27,13 @@ public struct ContentView: View {
         .onKeyPress { keyPress in
             switch keyPress.key {
             case .upArrow:
-                model.set(.up)
-                return .handled
+                return changeDirection(.up)
             case .downArrow:
-                model.set(.down)
-                return .handled
+                return changeDirection(.down)
             case .leftArrow:
-                model.set(.left)
-                return .handled
+                return changeDirection(.left)
             case .rightArrow:
-                model.set(.right)
-                return .handled
+                return changeDirection(.right)
             default:
                 return .ignored
             }
@@ -94,6 +92,13 @@ public struct ContentView: View {
             )
             context.fill(Circle().path(in: rect), with: .color(.yellow))
         }
+    }
+
+    private func changeDirection(_ direction: Direction) -> KeyPress.Result {
+        Task { @MainActor in
+            model.set(direction)
+        }
+        return .handled
     }
 }
 
