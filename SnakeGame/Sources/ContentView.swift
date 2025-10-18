@@ -2,7 +2,6 @@ import SwiftUI
 
 public struct ContentView: View {
     @StateObject var model: ContentViewModel
-    @State var lastMoveTime: TimeInterval = Date().timeIntervalSince1970
 
     public init(
         model: ContentViewModel
@@ -40,14 +39,14 @@ public struct ContentView: View {
     }
 
     private func timelineView(_ timelineContext: TimelineViewDefaultContext) -> some View {
-        let prevMoveTime = lastMoveTime
+        let prevMoveTime = model.lastMoveTime
         let now = timelineContext.date.timeIntervalSince1970
         let diff = now - prevMoveTime
 
         // 일단 1초에 한 번씩 움직이도록
         if diff > 1 {
             model.move()
-            lastMoveTime = now
+            model.lastMoveTime = now
         }
 
         return Canvas(

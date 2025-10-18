@@ -19,6 +19,7 @@ public final class ContentViewModel: ObservableObject {
     @Published var snake: [Square] = []
     @Published var foods: [Food] = []
     @Published var isGameOver = false
+    @Published var lastMoveTime: TimeInterval = Date().timeIntervalSince1970
 
     public init(grid: Double = 30) {
         self.grid = grid
