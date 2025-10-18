@@ -92,10 +92,12 @@ public final class ContentViewModel: ObservableObject {
             generateFoodToRandomCoordinate()
         }
 
-        if ateFood(snake[0]) {
-            removeFood(from: snake[0])
-            if let tail = snake.last {
-                appendTail(tail)
+        for s in snake {
+            if ateFood(s) {
+                removeFood(from: s)
+                if let tail = snake.last {
+                    appendTail(tail)
+                }
             }
         }
     }
@@ -145,14 +147,12 @@ public final class ContentViewModel: ObservableObject {
 
             for square in snake {
                 if square.x == x, square.y == y {
-                    print("square 랑 위치 겹침")
                     continue
                 }
             }
 
             for food in foods {
                 if food.x == x, food.y == y {
-                    print("Food 랑 위치 겹침")
                     continue
                 }
             }
