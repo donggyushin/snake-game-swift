@@ -21,7 +21,11 @@ public final class ContentViewModel: ObservableObject {
     @Published var isGameOver = false
 
     @MainActor var tickInterval: TimeInterval {
-        if snake.count >= 15 {
+        if snake.count >= 30 {
+            return 0.1
+        } else if snake.count >= 20 {
+            return 0.2
+        } else if snake.count >= 15 {
             return 0.3
         } else if snake.count >= 10 {
             return 0.4
