@@ -24,6 +24,20 @@ public final class ContentViewModel: ObservableObject {
         self.grid = grid
     }
 
+    @MainActor var tickInterval: TimeInterval {
+        if snake.count >= 15 {
+            return 0.3
+        } else if snake.count >= 10 {
+            return 0.4
+        } else if snake.count >= 6 {
+            return 0.6
+        } else if snake.count >= 4 {
+            return 0.8
+        } else {
+            return 1
+        }
+    }
+
     @MainActor func set(_ direction: Direction) {
         guard !isGameOver else { return }
         guard snake.isEmpty == false else { return }

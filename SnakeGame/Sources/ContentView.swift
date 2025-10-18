@@ -14,13 +14,16 @@ public struct ContentView: View {
             timelineView()
         }
         .task {
-            await MainActor.run {
-                model.generateInitialSnake()
-                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                    Task { @MainActor in
-                        model.tick()
-                    }
+            model.generateInitialSnake()
+            while !Task.isCancelled {
+                let interval = model.tickInterval
+                let nanoseconds = UInt64(interval * 1_000_000_000)
+                do {
+                    try await Task.sleep(nanoseconds: nanoseconds)
+                } catch {
+                    break
                 }
+                model.tick()
             }
         }
         .focusable()
