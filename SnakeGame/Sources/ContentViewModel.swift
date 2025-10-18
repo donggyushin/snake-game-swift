@@ -20,10 +20,6 @@ public final class ContentViewModel: ObservableObject {
     @Published var foods: [Food] = []
     @Published var isGameOver = false
 
-    public init(grid: Double = 30) {
-        self.grid = grid
-    }
-
     @MainActor var tickInterval: TimeInterval {
         if snake.count >= 15 {
             return 0.3
@@ -36,6 +32,10 @@ public final class ContentViewModel: ObservableObject {
         } else {
             return 1
         }
+    }
+
+    public init(grid: Double = 30) {
+        self.grid = grid
     }
 
     @MainActor func set(_ direction: Direction) {
@@ -122,6 +122,17 @@ public final class ContentViewModel: ObservableObject {
     @MainActor private func isConflict(_ square: Square) -> Bool {
         guard square.x >= 0, square.y >= 0 else { return true }
         guard square.x < grid, square.y < grid else { return true }
+
+        // Check body conflict
+        var keySet: Set<String> = []
+
+        for s in snake {
+            if keySet.contains(s.key) {
+                return true
+            } else {
+                keySet.insert(s.key)
+            }
+        }
 
         return false
     }
