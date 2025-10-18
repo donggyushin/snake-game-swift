@@ -32,7 +32,7 @@ public final class ContentViewModel: ObservableObject {
 
     @MainActor func generateInitialSnake() {
         snake = [
-            .init(x: grid / 2, y: grid / 2),
+            .init(x: grid / 2, y: grid / 2)
         ]
     }
 
@@ -73,10 +73,30 @@ public final class ContentViewModel: ObservableObject {
         }
 
         if ateFood(snake[0]) {
-            print("ate food!")
             removeFood(from: snake[0])
-            print("append tail")
+            if let tail = snake.last {
+                appendTail(tail)
+            }
         }
+    }
+
+    @MainActor func appendTail(_ tail: Square) {
+        // if direction down, then append tail y -= 1
+
+        let newTail: Square
+
+        switch tail.direction {
+        case .down:
+            newTail = .init(x: tail.x, y: tail.y - 1, direction: tail.direction)
+        case .up:
+            newTail = .init(x: tail.x, y: tail.y + 1, direction: tail.direction)
+        case .right:
+            newTail = .init(x: tail.x - 1, y: tail.y, direction: tail.direction)
+        case .left:
+            newTail = .init(x: tail.x + 1, y: tail.y, direction: tail.direction)
+        }
+
+        snake.append(newTail)
     }
 
     @MainActor func isConflict(_ square: Square) -> Bool {
