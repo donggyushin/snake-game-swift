@@ -10,11 +10,16 @@ public struct ContentView: View {
     }
 
     public var body: some View {
-        TimelineView(.animation) { timelineContext in
-            timelineView(timelineContext)
+        TimelineView(.animation) { _ in
+            timelineView()
         }
         .task {
             model.generateInitialSnake()
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                Task {
+                    await model.tick()
+                }
+            }
         }
         .focusable()
         .onKeyPress { keyPress in
@@ -38,17 +43,7 @@ public struct ContentView: View {
         .frame(width: 700, height: 700)
     }
 
-    private func timelineView(_ timelineContext: TimelineViewDefaultContext) -> some View {
-        let prevMoveTime = model.lastMoveTime
-        let now = timelineContext.date.timeIntervalSince1970
-        let diff = now - prevMoveTime
-
-        // 일단 1초에 한 번씩 움직이도록
-        if diff > 1 {
-            model.move()
-            model.lastMoveTime = now
-        }
-
+    private func timelineView() -> some View {
         return Canvas(
             opaque: true,
             colorMode: .linear,

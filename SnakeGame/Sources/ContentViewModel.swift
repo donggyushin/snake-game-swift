@@ -19,7 +19,6 @@ public final class ContentViewModel: ObservableObject {
     @Published var snake: [Square] = []
     @Published var foods: [Food] = []
     @Published var isGameOver = false
-    @Published var lastMoveTime: TimeInterval = Date().timeIntervalSince1970
 
     public init(grid: Double = 30) {
         self.grid = grid
@@ -31,14 +30,18 @@ public final class ContentViewModel: ObservableObject {
         snake[0].direction = direction
     }
 
+    @MainActor func tick() {
+        guard !isGameOver else { return }
+        move()
+    }
+
     @MainActor func generateInitialSnake() {
         snake = [
             .init(x: grid / 2, y: grid / 2)
         ]
     }
 
-    @MainActor func move() {
-        guard !isGameOver else { return }
+    @MainActor private func move() {
         guard snake.isEmpty == false else { return }
         var prevDirection = snake[0].direction
 
@@ -81,7 +84,7 @@ public final class ContentViewModel: ObservableObject {
         }
     }
 
-    @MainActor func appendTail(_ tail: Square) {
+    @MainActor private func appendTail(_ tail: Square) {
         // if direction down, then append tail y -= 1
 
         let newTail: Square
@@ -100,14 +103,14 @@ public final class ContentViewModel: ObservableObject {
         snake.append(newTail)
     }
 
-    @MainActor func isConflict(_ square: Square) -> Bool {
+    @MainActor private func isConflict(_ square: Square) -> Bool {
         guard square.x >= 0, square.y >= 0 else { return true }
         guard square.x < grid, square.y < grid else { return true }
 
         return false
     }
 
-    @MainActor func generateFoodToRandomCoordinate() {
+    @MainActor private func generateFoodToRandomCoordinate() {
         while true {
             // Food, Square 가 없는 위치
             let x = availableCoordinateNumber.randomElement()!
@@ -132,7 +135,7 @@ public final class ContentViewModel: ObservableObject {
         }
     }
 
-    @MainActor func ateFood(_ square: Square) -> Bool {
+    @MainActor private func ateFood(_ square: Square) -> Bool {
         let x = square.x
         let y = square.y
 
@@ -145,7 +148,7 @@ public final class ContentViewModel: ObservableObject {
         return false
     }
 
-    @MainActor func removeFood(from square: Square) {
+    @MainActor private func removeFood(from square: Square) {
         let x = square.x
         let y = square.y
 
