@@ -11,7 +11,13 @@ public struct ContentView: View {
 
     public var body: some View {
         TimelineView(.animation) { _ in
-            timelineView()
+            Canvas(
+                opaque: true,
+                colorMode: .linear,
+                rendersAsynchronously: false
+            ) { context, size in
+                drawCanvas(context: context, size: size)
+            }
         }
         .task {
             model.generateInitialSnake()
@@ -42,16 +48,6 @@ public struct ContentView: View {
             }
         }
         .frame(width: 700, height: 700)
-    }
-
-    private func timelineView() -> some View {
-        return Canvas(
-            opaque: true,
-            colorMode: .linear,
-            rendersAsynchronously: false
-        ) { context, size in
-            drawCanvas(context: context, size: size)
-        }
     }
 
     private func drawCanvas(context: GraphicsContext, size: CGSize) {
