@@ -31,7 +31,7 @@ public final class ContentViewModel: ObservableObject {
             return 0.4
         } else if snake.count >= 6 {
             return 0.6
-        } else if snake.count >= 4 {
+        } else if snake.count >= 3 {
             return 0.8
         } else {
             return 1
