@@ -10,44 +10,58 @@ public struct ContentView: View {
     }
 
     public var body: some View {
-        TimelineView(.animation) { _ in
-            Canvas(
-                opaque: true,
-                colorMode: .linear,
-                rendersAsynchronously: false
-            ) { context, size in
-                drawCanvas(context: context, size: size)
-            }
-        }
-        .task {
-            model.generateInitialSnake()
-            while !Task.isCancelled {
-                let interval = model.tickInterval
-                let nanoseconds = UInt64(interval * 1_000_000_000)
-                do {
-                    try await Task.sleep(nanoseconds: nanoseconds)
-                } catch {
-                    break
+        HStack {
+            VStack(alignment: .leading) {
+                Text("score: \(model.currentScore)")
+                Text("speed: tick per \(model.tickInterval)")
+
+                if model.isGameOver {
+                    Button("Restart") {
+                        print("Restart Game")
+                    }
                 }
-                model.tick()
             }
-        }
-        .focusable()
-        .onKeyPress { keyPress in
-            switch keyPress.key {
-            case .upArrow:
-                return changeDirection(.up)
-            case .downArrow:
-                return changeDirection(.down)
-            case .leftArrow:
-                return changeDirection(.left)
-            case .rightArrow:
-                return changeDirection(.right)
-            default:
-                return .ignored
+
+            TimelineView(.animation) { _ in
+                Canvas(
+                    opaque: true,
+                    colorMode: .linear,
+                    rendersAsynchronously: false
+                ) { context, size in
+                    drawCanvas(context: context, size: size)
+                }
             }
+            .task {
+                model.generateInitialSnake()
+                while !Task.isCancelled {
+                    let interval = model.tickInterval
+                    let nanoseconds = UInt64(interval * 1_000_000_000)
+                    do {
+                        try await Task.sleep(nanoseconds: nanoseconds)
+                    } catch {
+                        break
+                    }
+                    guard !model.isGameOver else { return }
+                    model.tick()
+                }
+            }
+            .focusable()
+            .onKeyPress { keyPress in
+                switch keyPress.key {
+                case .upArrow:
+                    return changeDirection(.up)
+                case .downArrow:
+                    return changeDirection(.down)
+                case .leftArrow:
+                    return changeDirection(.left)
+                case .rightArrow:
+                    return changeDirection(.right)
+                default:
+                    return .ignored
+                }
+            }
+            .frame(width: 900, height: 900)
         }
-        .frame(width: 700, height: 700)
     }
 
     private func drawCanvas(context: GraphicsContext, size: CGSize) {

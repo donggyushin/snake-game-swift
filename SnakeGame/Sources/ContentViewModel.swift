@@ -19,6 +19,9 @@ public final class ContentViewModel: ObservableObject {
     @Published var snake: [Square] = []
     @Published var foods: [Food] = []
     @Published var isGameOver = false
+    var currentScore: Int {
+        snake.score()
+    }
 
     @MainActor var tickInterval: TimeInterval {
         if snake.count >= 30 {

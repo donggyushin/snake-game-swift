@@ -7,3 +7,9 @@ struct Square {
         "\(x),\(y)"
     }
 }
+
+extension Collection where Element == Square {
+    func score() -> Int {
+        count * 10
+    }
+}
