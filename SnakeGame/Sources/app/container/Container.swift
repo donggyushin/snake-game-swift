@@ -5,8 +5,8 @@ final class Container {
 
     private init() {}
 
-    var isPreview: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-    var isTest: Bool = {
+    private var isPreview: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    private var isTest: Bool = {
         var testing = false
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
             testing = true
@@ -17,8 +17,8 @@ final class Container {
         return testing
     }()
 
-    let scoreRepositoryUserDefaults = ScoreRepositoryUserDefaults()
-    let scoreRepositoryMock = ScoreRepositoryMock()
+    private let scoreRepositoryUserDefaults = ScoreRepositoryUserDefaults()
+    private let scoreRepositoryMock = ScoreRepositoryMock()
 
     var scoreRepository: ScoreRepository {
         if isPreview || isTest {

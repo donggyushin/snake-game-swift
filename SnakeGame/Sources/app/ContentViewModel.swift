@@ -19,6 +19,8 @@ public final class ContentViewModel: ObservableObject {
     @Published var snake: [Square] = []
     @Published var foods: [Food] = []
     @Published var isGameOver = false
+    @Injected(\.scoreRepository) var scoreRepository
+
     var currentScore: Int {
         snake.score()
     }
