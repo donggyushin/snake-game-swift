@@ -6,6 +6,7 @@ final class ScoreRepositoryUserDefaults: ScoreRepository {
     func post(_ score: Score) {
         var scores = get()
         scores.append(score)
+        scores.sort { $0.value > $1.value }
         self.scores = scores
     }
 
