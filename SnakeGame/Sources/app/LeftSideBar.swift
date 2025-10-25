@@ -29,6 +29,11 @@ struct LeftSideBar: View {
                     Text("nickname: \(score.nickname)")
                     Text("score: \(score.value)")
                 }
+                .contextMenu {
+                    Button("Delete") {
+                        model.deleteScore(score)
+                    }
+                }
             }
         }
         .onAppear {
@@ -53,7 +58,6 @@ struct LeftSideBar: View {
                 createdAt: Date(),
                 nickname: nickname
             )
-            model.fetchScores()
         }
     }
 }

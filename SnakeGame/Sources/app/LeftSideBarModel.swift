@@ -20,5 +20,16 @@ final class LeftSideBarModel: ObservableObject {
         let score = Score(id: id, value: value, createdAt: createdAt, nickname: nickname)
 
         scoreRepository.post(score)
+        fetchScores()
+    }
+
+    @MainActor func deleteScore(_ score: Score) {
+        scoreRepository.delete(score.id)
+
+        if let index = scores.firstIndex(where: { item in
+            score.id == item.id
+        }) {
+            scores.remove(at: index)
+        }
     }
 }
