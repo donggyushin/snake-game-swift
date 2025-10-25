@@ -11,8 +11,7 @@ public struct ContentView: View {
 
     public var body: some View {
         HStack {
-            LeftSideBar(model: model)
-
+            LeftSideBar(parentModel: model, model: .init())
             TimelineView(.animation) { _ in
                 Canvas(
                     opaque: true,

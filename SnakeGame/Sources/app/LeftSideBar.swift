@@ -1,16 +1,21 @@
 import SwiftUI
 
 struct LeftSideBar: View {
-    @ObservedObject var model: ContentViewModel
+    @ObservedObject var parentModel: ContentViewModel
+    @StateObject var model: LeftSideBarModel
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("score: \(model.currentScore)")
-            Text("speed: tick per \(model.tickInterval)")
+            Text("score: \(parentModel.currentScore)")
+            Text("speed: tick per \(parentModel.tickInterval)")
 
-            if model.isGameOver {
+            if parentModel.isGameOver {
                 Button("Restart") {
-                    print("Restart Game")
+                    parentModel.generateInitialSnake()
+                }
+
+                Button("Save Record") {
+                    print("save record")
                 }
             }
         }
