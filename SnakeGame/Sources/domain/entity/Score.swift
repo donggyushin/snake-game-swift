@@ -1,6 +1,6 @@
 import Foundation
 
-struct Score: Codable {
+struct Score: Codable, Identifiable {
     let id: String
     let value: Int
     let createdAt: Date

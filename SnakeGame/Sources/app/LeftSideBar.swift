@@ -2,9 +2,9 @@ import SwiftUI
 
 struct LeftSideBar: View {
     @ObservedObject var parentModel: ContentViewModel
+    @Environment(\.openWindow) var openWindow
     @StateObject var model: LeftSideBarModel
     @State var showSaveGameRecordAlert = false
-    @Environment(\.openWindow) var openWindow
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -17,8 +17,17 @@ struct LeftSideBar: View {
                     model.canSaveGame = true
                 }
 
-                Button("Save Record") {
-                    showSaveGameRecordAlert = true
+                if model.canSaveGame {
+                    Button("Save Record") {
+                        showSaveGameRecordAlert = true
+                    }
+                }
+            }
+
+            List(model.scores) { score in
+                VStack(alignment: .leading) {
+                    Text("nickname: \(score.nickname)")
+                    Text("score: \(score.value)")
                 }
             }
         }
