@@ -38,5 +38,12 @@ struct LeftSideBar: View {
                 }
             }
         }
+        .onReceive(EventBus.shared.nicknameEventForSavingRecord) { nickname in
+            model.saveGame(
+                value: parentModel.currentScore,
+                createdAt: Date(),
+                nickname: nickname
+            )
+        }
     }
 }

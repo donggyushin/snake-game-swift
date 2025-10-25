@@ -6,6 +6,7 @@ final class LeftSideBarModel: ObservableObject {
 
     @Published var scores: [Score] = []
     @Published var canSaveGame = true
+    private var cancellables = Set<AnyCancellable>()
 
     @MainActor func fetchScores() {
         scores = scoreRepository.get()

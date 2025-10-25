@@ -3,6 +3,7 @@ import SwiftUI
 @main
 struct SnakeGameApp: App {
     @State var nickname = ""
+    @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some Scene {
         WindowGroup {
@@ -16,7 +17,9 @@ struct SnakeGameApp: App {
 
                 Button("Save") {
                     guard !nickname.isEmpty else { return }
-                    print("should pass event to LeftSideBar")
+                    EventBus.shared.nicknameEventForSavingRecord.send(nickname)
+                    nickname = ""
+                    dismissWindow.callAsFunction(id: "nickname-form")
                 }
             }
             .padding(20)
