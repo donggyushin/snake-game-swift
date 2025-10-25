@@ -44,6 +44,7 @@ struct LeftSideBar: View {
                 createdAt: Date(),
                 nickname: nickname
             )
+            model.fetchScores()
         }
     }
 }
