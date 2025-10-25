@@ -19,5 +19,8 @@ struct LeftSideBar: View {
                 }
             }
         }
+        .onAppear {
+            model.fetchScores()
+        }
     }
 }
