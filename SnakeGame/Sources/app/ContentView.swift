@@ -11,16 +11,7 @@ public struct ContentView: View {
 
     public var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text("score: \(model.currentScore)")
-                Text("speed: tick per \(model.tickInterval)")
-
-                if model.isGameOver {
-                    Button("Restart") {
-                        print("Restart Game")
-                    }
-                }
-            }
+            LeftSideBar(model: model)
 
             TimelineView(.animation) { _ in
                 Canvas(
