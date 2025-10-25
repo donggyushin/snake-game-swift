@@ -23,7 +23,7 @@ public struct ContentView: View {
             }
             .task {
                 model.generateInitialSnake()
-                while !Task.isCancelled {
+                while true {
                     let interval = model.tickInterval
                     let nanoseconds = UInt64(interval * 1_000_000_000)
                     do {
@@ -31,8 +31,9 @@ public struct ContentView: View {
                     } catch {
                         break
                     }
-                    guard !model.isGameOver else { return }
-                    model.tick()
+                    if !model.isGameOver {
+                        model.tick()
+                    }
                 }
             }
             .focusable()

@@ -64,6 +64,7 @@ public final class ContentViewModel: ObservableObject {
         snake = [
             .init(x: grid / 2, y: grid / 2)
         ]
+        foods = []
         isGameOver = false
     }
 
