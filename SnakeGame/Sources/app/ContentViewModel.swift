@@ -190,7 +190,9 @@ public final class ContentViewModel: ObservableObject {
 
         for (index, food) in foods.enumerated() {
             if food.x == x, food.y == y {
-                foods.remove(at: index)
+                if foods.indices.contains(index) {
+                    foods.remove(at: index)
+                }
             }
         }
     }
