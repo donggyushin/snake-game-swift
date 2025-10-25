@@ -19,7 +19,7 @@ struct LeftSideBar: View {
                 }
 
                 Button("Save Record") {
-                    print("save record")
+                    showSaveGameRecordAlert = true
                 }
             }
         }
